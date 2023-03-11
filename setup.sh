@@ -5,7 +5,7 @@
 #####################################################################################
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                                   #
-# Copyright (c) 2020 ADSBx                                                          #
+# Copyright (c) 2020 ADSBx, adapted 2023 by Mark Pentler for OARC                   #
 #                                                                                   #
 # Permission is hereby granted, free of charge, to any person obtaining a copy      #
 # of this software and associated documentation files (the "Software"), to deal     #
@@ -36,22 +36,6 @@ if [ "$(id -u)" != "0" ]; then
     echo -e "\033[33m"
     echo "This script must be ran using sudo or as root."
     echo -e "\033[37m"
-    exit 1
-fi
-
-## REFUSE INSTALLATION ON ADSBX IMAGE
-
-if [ -f /boot/oarc-adsb-config.txt ]; then
-    echo --------
-    echo "You are using the OARC ADS-B image, the feed setup script does not need to be installed."
-    echo "You should already be feeding."
-    echo "If the feed isn't working, check/correct the configuration using nano:"
-    echo --------
-    echo "sudo nano /boot/oarc-adsb-config.txt"
-    echo --------
-    echo "Hint for using nano: Ctrl-X to exit, Y(yes) and Enter to save."
-    echo --------
-    echo "Exiting."
     exit 1
 fi
 

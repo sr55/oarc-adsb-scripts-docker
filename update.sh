@@ -42,13 +42,6 @@ if [ "$(id -u)" != "0" ]; then
     exit 1
 fi
 
-if [ -f /boot/oarc-adsb-config.txt ]; then
-    echo --------
-    echo "You are using the OARC ADS-B image, the feed setup script does not need to be installed."
-    echo --------
-    exit 1
-fi
-
 function aptInstall() {
     if ! apt install -y --no-install-recommends --no-install-suggests "$@"; then
         apt update
@@ -141,12 +134,8 @@ if [[ -z $INPUT ]] || [[ -z $INPUT_TYPE ]] || [[ -z $USER ]] \
     exit 0
 fi
 
+MLAT_DISABLED=0
 
-if [[ "$LATITUDE" == 0 ]] || [[ "$LONGITUDE" == 0 ]] || [[ "$USER" == 0 ]]; then
-    MLAT_DISABLED=1
-else
-    MLAT_DISABLED=0
-fi
 
 cp "$GIT/uninstall.sh" "$IPATH"
 cp "$GIT"/scripts/*.sh "$IPATH"
@@ -158,108 +147,12 @@ then
     adduser --system --home "$IPATH" --no-create-home --quiet "$UNAME" || adduser --system --home-dir "$IPATH" --no-create-home "$UNAME"
 fi
 
-echo 4
+echo 25
 sleep 0.25
 
-# BUILD AND CONFIGURE THE MLAT-CLIENT PACKAGE
-
-progress=4
-echo "Checking and installing prerequesites ..."
-
-# Check that the prerequisite packages needed to build and install mlat-client are installed.
-
-# only install chrony if chrony and ntp aren't running
-if ! systemctl status chrony &>/dev/null && ! systemctl status ntp &>/dev/null; then
-    required_packages="chrony "
-fi
-
-
-echo
-bash "$IPATH/git/create-uuid.sh"
-
-VENV=$IPATH/venv
-if [[ -f /usr/local/share/oarc-adsb/venv/bin/python3.7 ]] && command -v python3.9 &>/dev/null;
-then
-    rm -rf "$VENV"
-fi
-
-
-MLAT_REPO="https://github.com/mpentler/mlat-client"
-MLAT_BRANCH="master"
-MLAT_VERSION="$(git ls-remote $MLAT_REPO $MLAT_BRANCH | cut -f1 || echo $RANDOM-$RANDOM )"
-if [[ $REINSTALL != yes ]] && grep -e "$MLAT_VERSION" -qs $IPATH/mlat_version \
-    && grep -qs -e '#!' "$VENV/bin/mlat-client" && { systemctl is-active oarc-adsb-mlat &>/dev/null || [[ "${MLAT_DISABLED}" == "1" ]]; }
-then
-    echo
-    echo "mlat-client already installed, git hash:"
-    cat $IPATH/mlat_version
-    echo
-else
-    echo
-    echo "Installing mlat-client to virtual environment"
-    echo
-    # Check if the mlat-client git repository already exists.
-
-    MLAT_GIT="$IPATH/mlat-client-git"
-
-    # getGIT $REPO $BRANCH $TARGET-DIR
-    getGIT $MLAT_REPO $MLAT_BRANCH $MLAT_GIT &> $LOGFILE
-
-    cd $MLAT_GIT
-
-    echo 34
-
-    rm "$VENV-backup" -rf
-    mv "$VENV" "$VENV-backup" -f &>/dev/null || true
-    if /usr/bin/python3 -m venv $VENV >> $LOGFILE \
-        && echo 36 \
-        && source $VENV/bin/activate >> $LOGFILE \
-        && echo 38 \
-        && python3 setup.py build >> $LOGFILE \
-        && echo 40 \
-        && python3 setup.py install >> $LOGFILE \
-        && echo 46 \
-        && revision > $IPATH/mlat_version || rm -f $IPATH/mlat_version \
-        && echo 48 \
-    ; then
-        rm "$VENV-backup" -rf
-    else
-        rm "$VENV" -rf
-        mv "$VENV-backup" "$VENV" &>/dev/null || true
-        echo "--------------------"
-        echo "Installing mlat-client failed, if there was an old version it has been restored."
-        echo "Will continue installation to try and get at least the feed client working."
-        echo "Please report this error on Discord."
-        echo "--------------------"
-    fi
-fi
+echo "Skipping MLAT stuff for now..."
 
 echo 50
-
-# copy oarc-adsb-mlat service file
-cp "$GIT"/scripts/oarc-adsb-mlat.service /lib/systemd/system
-
-echo 60
-
-if ls -l /etc/systemd/system/oarc-adsb-mlat.service 2>&1 | grep '/dev/null' &>/dev/null; then
-    echo "--------------------"
-    echo "CAUTION, oarc-adsb-mlat is masked and won't run!"
-    echo "If this is unexpected for you, please report this issue."
-    echo "--------------------"
-    sleep 3
-else
-    if [[ "${MLAT_DISABLED}" == "1" ]]; then
-        systemctl disable oarc-adsb-mlat || true
-        systemctl stop oarc-adsb-mlat || true
-    else
-        # Enable oarc-adsb-mlat service
-        systemctl enable oarc-adsb-mlat >> $LOGFILE || true
-        # Start or restart oarc-adsb-mlat service
-        systemctl restart oarc-adsb-mlat || true
-    fi
-fi
-
-echo 70
 
 # SETUP FEEDER TO SEND DUMP1090 DATA TO oarc-adsb
 
@@ -337,33 +230,6 @@ systemctl is-active oarc-adsb-feed &>/dev/null || {
 }
 
 echo 96
-[[ "${MLAT_DISABLED}" == "1" ]] || systemctl is-active oarc-adsb-mlat &>/dev/null || {
-    rm -f $IPATH/mlat_version
-    echo "---------------------------------"
-    journalctl -u oarc-adsb-mlat | tail -n10
-    echo "---------------------------------"
-    echo "oarc-adsb-mlat service couldn't be started, please report this error on Discord."
-    echo "Try and copy as much of the output above and include it in your report, thank you!"
-    echo "---------------------------------"
-    exit 1
-}
-
-# Remove old method of starting the feed scripts if present from rc.local
-# Kill the old oarc-adsb scripts in case they are still running from a previous install including spawned programs
-for name in oarc-adsb-netcat_maint.sh oarc-adsb-socat_maint.sh oarc-adsb-mlat_maint.sh; do
-    if grep -qs -e "$name" /etc/rc.local; then
-        sed -i -e "/$name/d" /etc/rc.local || true
-    fi
-    if PID="$(pgrep -f "$name" 2>/dev/null)" && PIDS="$PID $(pgrep -P $PID 2>/dev/null)"; then
-        echo killing: $PIDS >> $LOGFILE 2>&1 || true
-        kill -9 $PIDS >> $LOGFILE 2>&1 || true
-    fi
-done
-
-# in case the mlat-client service using /etc/default/mlat-client as config is using oarc-adsb as a host, disable the service
-if grep -qs 'SERVER_HOSTPORT.*44.31.91.230' /etc/default/mlat-client &>/dev/null; then
-    systemctl disable --now mlat-client >> $LOGFILE 2>&1 || true
-fi
 
 if [[ -f /etc/default/oarc-adsb ]]; then
     sed -i -e 's/44.31.91.230,30004,beast_reduce_out/44.31.91.230,30004,beast_reduce_out/' /etc/default/oarc-adsb || true
