@@ -6,7 +6,8 @@
 
 ## 1: Find coordinates and elevation
 
-<https://www.freemaptools.com/elevation-finder.htm>
+Coordinates: <https://www.mapcoordinates.net/en>
+Elevation: <https://www.freemaptools.com/elevation-finder.htm>
 
 ## 2: Install the feed client
 
