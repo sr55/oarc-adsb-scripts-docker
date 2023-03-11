@@ -1,19 +1,19 @@
 
 [Unit]
-Description=adsbfi-feed
+Description=oarc-adsb-feed
 Wants=network.target
 After=network.target
 
 [Service]
 User=adsbfi
-RuntimeDirectory=adsbfi-feed
-ExecStart=/usr/local/share/adsbfi/adsbfi-feed.sh
+RuntimeDirectory=oarc-adsb-feed
+ExecStart=/usr/local/share/oarc-adsb/oarc-adsb-feed.sh
 Type=simple
 Restart=always
 RestartSec=30
 StartLimitInterval=1
 StartLimitBurst=100
-SyslogIdentifier=adsbfi-feed
+SyslogIdentifier=oarc-adsb-feed
 Nice=-1
 
 [Install]
