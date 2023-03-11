@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #####################################################################################
-#                        adsb.fi SETUP SCRIPT                                       #
+#                        OARC ADS-B SETUP SCRIPT                                    #
 #####################################################################################
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                                   #
@@ -29,7 +29,7 @@
 
 set -e
 
-IPATH=/usr/local/share/adsbfi
+IPATH=/usr/local/share/oarc-adsb
 
 ## we need to install stuff that require root, check for that
 if [ "$(id -u)" != "0" ]; then
@@ -41,13 +41,13 @@ fi
 
 ## REFUSE INSTALLATION ON ADSBX IMAGE
 
-if [ -f /boot/adsbfi-config.txt ]; then
+if [ -f /boot/oarc-adsb-config.txt ]; then
     echo --------
-    echo "You are using the adsb.fi image, the feed setup script does not need to be installed."
+    echo "You are using the OARC ADS-B image, the feed setup script does not need to be installed."
     echo "You should already be feeding."
     echo "If the feed isn't working, check/correct the configuration using nano:"
     echo --------
-    echo "sudo nano /boot/adsbfi-config.txt"
+    echo "sudo nano /boot/oarc-adsb-config.txt"
     echo --------
     echo "Hint for using nano: Ctrl-X to exit, Y(yes) and Enter to save."
     echo --------
@@ -57,7 +57,7 @@ fi
 
 bash "$IPATH/git/configure.sh"
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "We are now ready to begin setting up your receiver to feed adsb.fi.\n\nDo you wish to proceed?" 9 78 || exit 1
+whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "We are now ready to begin setting up your receiver to feed OARC.\n\nDo you wish to proceed?" 9 78 || exit 1
 
 bash "$IPATH/git/update.sh"
 

@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-REPO="https://github.com/adsbfi/adsb-fi-scripts.git"
+REPO="https://github.com/mpentler/oarc-adsb-scripts.git"
 BRANCH="master"
-IPATH=/usr/local/share/adsbfi
+IPATH=/usr/local/share/oarc-adsb
 mkdir -p $IPATH
 
 if [ "$(id -u)" != "0" ]; then

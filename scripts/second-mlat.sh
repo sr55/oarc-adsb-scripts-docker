@@ -1,5 +1,5 @@
 #!/bin/bash
-SERVICE="/lib/systemd/system/adsbfi-mlat2.service"
+SERVICE="/lib/systemd/system/oarc-adsb-mlat2.service"
 
 if [[ -z ${1} ]]; then
     echo --------------
@@ -9,17 +9,17 @@ fi
 
 cat >"$SERVICE" <<"EOF"
 [Unit]
-Description=adsbfi-mlat2
+Description=oarc-adsb-mlat2
 Wants=network.target
 After=network.target
 
 [Service]
-User=adsbfi
-EnvironmentFile=/etc/default/adsbfi
-ExecStart=/usr/local/share/adsbfi/venv/bin/mlat-client \
+User=oarc-adsb
+EnvironmentFile=/etc/default/oarc-adsb
+ExecStart=/usr/local/share/oarc-adsb/venv/bin/mlat-client \
     --input-type $INPUT_TYPE --no-udp \
     --input-connect $INPUT \
-    --server feed.adsb.fi:SERVERPORT \
+    --server 44.31.91.230:SERVERPORT \
     --user $USER \
     --lat $LATITUDE \
     --lon $LONGITUDE \
@@ -32,7 +32,7 @@ Restart=always
 RestartSec=30
 StartLimitInterval=1
 StartLimitBurst=100
-SyslogIdentifier=adsbfi-mlat2
+SyslogIdentifier=oarc-adsb-mlat2
 Nice=-1
 
 [Install]
@@ -48,5 +48,5 @@ if [[ -n ${2} ]]; then
     sed -i -e "s/\$RESULTS/${2}/" "$SERVICE"
 fi
 
-systemctl enable adsbfi-mlat2
-systemctl restart adsbfi-mlat2
+systemctl enable oarc-adsb-mlat2
+systemctl restart oarc-adsb-mlat2
