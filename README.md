@@ -1,6 +1,6 @@
 # OARC ADS-B feed client
 
-- These scripts aid in setting up your current ADS-B receiver to feed the [OARC ADS-B map](http://44.31.91.230/).
+- These scripts aid in setting up your current ADS-B receiver to feed the [OARC ADS-B map](http://adsb.oarc.uk/).
 - They will not disrupt any existing feed clients already present.
 - MLAT is not supported yet (future work, maybe!)
 
