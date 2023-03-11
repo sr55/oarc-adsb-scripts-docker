@@ -366,7 +366,7 @@ if grep -qs 'SERVER_HOSTPORT.*44.31.91.230' /etc/default/mlat-client &>/dev/null
 fi
 
 if [[ -f /etc/default/oarc-adsb ]]; then
-    sed -i -e 's/44.31.91.230,30004,beast_reduce_out/44.31.91.230,30004,beast_reduce_out' /etc/default/oarc-adsb || true
+    sed -i -e 's/44.31.91.230,30004,beast_reduce_out/44.31.91.230,30004,beast_reduce_out/' /etc/default/oarc-adsb || true
 fi
 
 
