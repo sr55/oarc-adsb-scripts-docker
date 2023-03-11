@@ -14,7 +14,7 @@ rm -f /lib/systemd/system/oarc-adsb-feed.service
 cp -f "$IPATH/oarc-adsb-uuid" /tmp/oarc-adsb-uuid
 rm -rf "$IPATH"
 mkdir -p "$IPATH"
-mv -f /tmp/oarc-adsb-uuid "$IPATH/oarc-fi-uuid"
+mv -f /tmp/oarc-adsb-uuid "$IPATH/oarc-adsb-uuid"
 
 set +x
 
