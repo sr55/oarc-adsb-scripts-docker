@@ -51,8 +51,6 @@ OARCADSBUSERNAME=$(whiptail --backtitle "$BACKTITLETEXT" --title "Feeder MLAT Na
 
 NOSPACENAME="$(echo -n -e "${OARCADSBUSERNAME}" | tr -c '[a-zA-Z0-9]_\- ' '_')"
 
-whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --msgbox "MLAT DISABLED!.\n\n For some local functions the approximate receiver location is still useful, it won't be sent to the server." 12 78 || abort
-
 if [[ "$NOSPACENAME" != 0 ]]; then
     whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" \
         --msgbox "For MLAT the precise location of your antenna is required.\
