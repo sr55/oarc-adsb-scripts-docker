@@ -24,6 +24,7 @@ netstat -t -n | grep -E '30004|31090'
 ```
 Expected Output:
 ```
+tcp        0    182 localhost:43530     44.31.91.230:31090      ESTABLISHED
 tcp        0    410 localhost:47332     44.31.91.230:30004      ESTABLISHED
 ```
 
