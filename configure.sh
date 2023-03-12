@@ -47,9 +47,9 @@ BACKTITLETEXT="OARC ADS-B Setup Script"
 
 whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "Thanks for choosing to share your data with OARC!\n\nOARC is an worldwide online amateur radio community. This script will configure your current your ADS-B receiver to share your feeders data with OARC.\n\nWould you like to continue setup?" 13 78 || abort
 
-ADSBFIUSERNAME=$(whiptail --backtitle "$BACKTITLETEXT" --title "Feeder MLAT Name" --nocancel --inputbox "\nPlease enter a unique name to be shown on the MLAT map (the pin will be offset for privacy)\n\nExample: \"william34-london\", \"william34-jersey\", etc.\nDisable MLAT: enter a zero: 0" 12 78 3>&1 1>&2 2>&3) || abort
+OARCADSBUSERNAME=$(whiptail --backtitle "$BACKTITLETEXT" --title "Feeder MLAT Name" --nocancel --inputbox "\nPlease enter a unique name to be shown on the MLAT map (the pin will be offset for privacy)\n\nExample: \"william34-london\", \"william34-jersey\", etc.\nDisable MLAT: enter a zero: 0" 12 78 3>&1 1>&2 2>&3) || abort
 
-NOSPACENAME="$(echo -n -e "${ADSBFIUSERNAME}" | tr -c '[a-zA-Z0-9]_\- ' '_')"
+NOSPACENAME="$(echo -n -e "${OARCADSBUSERNAME}" | tr -c '[a-zA-Z0-9]_\- ' '_')"
 
 whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --msgbox "MLAT DISABLED!.\n\n For some local functions the approximate receiver location is still useful, it won't be sent to the server." 12 78 || abort
 
