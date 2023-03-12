@@ -20,7 +20,7 @@ sudo bash /tmp/feed.sh
 The feed IP for the OARC ADS-B map is 44.31.91.230
 
 ```
-netstat -t -n | grep -E '30004'
+netstat -t -n | grep -E '30004|31090'
 ```
 Expected Output:
 ```
