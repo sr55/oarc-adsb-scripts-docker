@@ -129,7 +129,7 @@ EOF
 fi
 if [[ -z $INPUT ]] || [[ -z $INPUT_TYPE ]] || [[ -z $USER ]] \
     || [[ -z $LATITUDE ]] || [[ -z $LONGITUDE ]] || [[ -z $ALTITUDE ]] \
-    || [[ -z $MLATSERVER ]] || [[ -z $TARGET ]] || [[ -z $NET_OPTIONS ]]; then
+    || [[ -z $TARGET ]] || [[ -z $NET_OPTIONS ]]; then
     bash "$GIT/setup.sh"
     exit 0
 fi
