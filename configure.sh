@@ -47,9 +47,22 @@ BACKTITLETEXT="OARC ADS-B Setup Script"
 
 whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --yesno "Thanks for choosing to share your data with OARC!\n\nOARC is an worldwide online amateur radio community. This script will configure your current your ADS-B receiver to share your feeders data with OARC.\n\nWould you like to continue setup?" 13 78 || abort
 
-NOSPACENAME=0
+ADSBFIUSERNAME=$(whiptail --backtitle "$BACKTITLETEXT" --title "Feeder MLAT Name" --nocancel --inputbox "\nPlease enter a unique name to be shown on the MLAT map (the pin will be offset for privacy)\n\nExample: \"william34-london\", \"william34-jersey\", etc.\nDisable MLAT: enter a zero: 0" 12 78 3>&1 1>&2 2>&3) || abort
+
+NOSPACENAME="$(echo -n -e "${ADSBFIUSERNAME}" | tr -c '[a-zA-Z0-9]_\- ' '_')"
 
 whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" --msgbox "MLAT DISABLED!.\n\n For some local functions the approximate receiver location is still useful, it won't be sent to the server." 12 78 || abort
+
+if [[ "$NOSPACENAME" != 0 ]]; then
+    whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" \
+        --msgbox "For MLAT the precise location of your antenna is required.\
+        \n\nA small error of 15m/45ft will cause issues with MLAT!\
+        \n\nTo get your location, use any online map service or this website: https://www.mapcoordinates.net/en" 12 78 || abort
+else
+    whiptail --backtitle "$BACKTITLETEXT" --title "$BACKTITLETEXT" \
+        --msgbox "MLAT DISABLED!.\
+        \n\n For some local functions the approximate receiver location is still useful, it won't be sent to the server." 12 78 || abort
+fi
 
 #((-90 <= RECEIVERLATITUDE <= 90))
 LAT_OK=0
@@ -125,7 +138,7 @@ RESULTS4="--results beast,connect,127.0.0.1:30170"
 PRIVACY=""
 INPUT_TYPE="$INPUT_TYPE"
 
-# mlatserver is unused at this time
+MLATSERVER="adsb.oarc.uk:31090"
 TARGET="--net-connector adsb.oarc.uk,30004,beast_reduce_out"
 NET_OPTIONS="--net-heartbeat 60 --net-ro-size 1280 --net-ro-interval 0.2 --net-ro-port 0 --net-sbs-port 0 --net-bi-port 30170 --net-bo-port 0 --net-ri-port 0 --write-json-every 1 --uuid-file /usr/local/share/oarc-adsb/oarc-adsb-uuid"
 JSON_OPTIONS="--max-range 450 --json-location-accuracy 2 --range-outline-hours 24"
