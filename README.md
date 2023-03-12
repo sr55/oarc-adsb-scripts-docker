@@ -2,7 +2,7 @@
 
 - These scripts aid in setting up your current ADS-B receiver to feed the [OARC ADS-B map](https://adsb.oarc.uk/).
 - They will not disrupt any existing feed clients already present.
-- MLAT is not supported yet (future work, maybe!)
+- MLAT is supported but not 100% working yet (nothing on the map).
 
 ## 1: Find coordinates and elevation
 
