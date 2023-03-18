@@ -283,6 +283,11 @@ else
 
     cd "$READSB_GIT"
 
+    echo "-----------------------------------------------" 
+    echo "Now compiling code. This can take a few minutes"
+    echo "-----------------------------------------------"
+
+
     echo 74
 
     make clean
