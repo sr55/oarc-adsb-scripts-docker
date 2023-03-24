@@ -133,7 +133,7 @@ PRIVACY=""
 INPUT_TYPE="$INPUT_TYPE"
 
 MLATSERVER="adsb.oarc.uk:31090"
-TARGET="--net-connector adsb.oarc.uk,30004,beast_reduce_out"
+TARGET="--net-connector adsb.oarc.uk,30004,beast_reduce_plus_out"
 NET_OPTIONS="--net-heartbeat 60 --net-ro-size 1280 --net-ro-interval 0.2 --write-json-every 1 --uuid-file /usr/local/share/oarc-adsb/oarc-adsb-uuid"
 JSON_OPTIONS="--max-range 450 --json-location-accuracy 2 --range-outline-hours 24"
 EOF
