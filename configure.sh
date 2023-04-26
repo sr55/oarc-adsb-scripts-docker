@@ -127,6 +127,11 @@ ALTITUDE="$RECEIVERALTITUDE"
 # if you're not receiving 978, don't worry about it, not doing any harm!
 UAT_INPUT="127.0.0.1:30978"
 
+RESULTS="--results beast,connect,127.0.0.1:30104"
+RESULTS2="--results basestation,listen,31091"
+RESULTS3="--results beast,listen,30157"
+RESULTS4="--results beast,connect,127.0.0.1:31092"
+
 # add --privacy between the quotes below to disable having the feed name shown on the mlat map
 # (position is never shown accurately no matter the settings)
 PRIVACY=""
@@ -134,7 +139,7 @@ INPUT_TYPE="$INPUT_TYPE"
 
 MLATSERVER="adsb.oarc.uk:31090"
 TARGET="--net-connector adsb.oarc.uk,30004,beast_reduce_plus_out"
-NET_OPTIONS="--net-heartbeat 60 --net-ro-size 1280 --net-ro-interval 0.2 --write-json-every 1 --uuid-file /usr/local/share/oarc-adsb/oarc-adsb-uuid"
+NET_OPTIONS="--net-heartbeat 60 --net-ro-size 1280 --net-ro-interval 0.2 --net-bi-port 31092 --write-json-every 1 --uuid-file /usr/local/share/oarc-adsb/oarc-adsb-uuid"
 JSON_OPTIONS="--max-range 450 --json-location-accuracy 2 --range-outline-hours 24"
 EOF
 
