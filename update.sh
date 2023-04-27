@@ -371,6 +371,8 @@ Thanks for choosing to share your data with OARC!
 Your feed should be active within 5 minutes, you can confirm by running the following command and looking for the IP address 44.31.91.230:
 netstat -t -n | grep -E '30004|31090'
 
+You can also visit https://adsb.oarc.uk/myip/ to check your ADS-B feed (soon you'll be able to check MLAT here too).
+
 Question? Issues? Check on the OARC Discord in #adsb-flight-tracking
 
 Web interface to show the data transmitted? Run this command:
