@@ -32,7 +32,8 @@ You can also check your ADS-B feed status (but not MLAT yet) at https://adsb.oar
 
 ## 4: Optional: Install [local interface](https://github.com/wiedehopf/tar1090) for your data
 
-The interface will be available at http://192.168.X.XX/oarc-adsb - no need to do this if you already have a local view running
+The interface will be available at http://192.168.X.XX/oarc-adsb - no need to do this if you already have a local view running.
+
 Replace the IP address with the address of your Raspberry Pi.
 
 Install / Update:
