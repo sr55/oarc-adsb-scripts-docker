@@ -4,7 +4,7 @@
 - They will not disrupt any existing feed clients already present.
 - MLAT is supported - specify a username when asked to enable this.
 
-## 1: Find coordinates and antenna elevation
+## 1: Find antenna coordinates and elevation
 
 Coordinates: <https://www.mapcoordinates.net/en>
 Elevation: <https://www.freemaptools.com/elevation-finder.htm>
