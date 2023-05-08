@@ -355,7 +355,7 @@ echo 96
 }
 
 if [[ -f /etc/default/oarc-adsb ]]; then
-    sed -i -e 's/adsb.oarc.uk,30004,beast_reduce_out/adsb.oarc.uk,30004,beast_reduce_out/' /etc/default/oarc-adsb || true
+    sed -i -e 's/adsb.oarc.uk,30004,beast_reduce_plus_out/adsb.oarc.uk,30004,beast_reduce_plus_out/' /etc/default/oarc-adsb || true
 fi
 
 
