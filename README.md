@@ -31,15 +31,6 @@ tcp        0    410 localhost:47332     44.31.91.230:30004      ESTABLISHED
 
 You can also check your ADS-B feed status (but not MLAT yet) at https://adsb.oarc.uk/myip/
 
-Install / Update:
-```
-sudo bash /usr/local/share/oarc-adsb/git/install-or-update-interface.sh
-```
-Remove:
-```
-sudo bash /usr/local/share/tar1090/uninstall.sh oarc-adsb
-```
-
 ### Update the feed client without reconfiguring
 
 ```
