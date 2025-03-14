@@ -31,12 +31,6 @@ tcp        0    410 localhost:47332     44.31.91.230:30004      ESTABLISHED
 
 You can also check your ADS-B feed status (but not MLAT yet) at https://adsb.oarc.uk/myip/
 
-## 4: Optional: Install [local interface](https://github.com/wiedehopf/tar1090) for your data
-
-The interface will be available at http://192.168.X.XX/oarc-adsb - no need to do this if you already have an overall local view running. This oarc-adsb local view will only display MLAT results returned by the OARC server, whereas an overall local view will show results from all websites that you feed.
-
-Replace the IP address with the address of your Raspberry Pi.
-
 Install / Update:
 ```
 sudo bash /usr/local/share/oarc-adsb/git/install-or-update-interface.sh
