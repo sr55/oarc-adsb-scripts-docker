@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-REPO="https://github.com/mpentler/oarc-adsb-scripts.git"
+REPO="https://github.com/sr55/oarc-adsb-scripts-docker.git"
 BRANCH="master"
 IPATH=/usr/local/share/oarc-adsb
 mkdir -p $IPATH
