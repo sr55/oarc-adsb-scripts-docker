@@ -239,23 +239,7 @@ cp "$GIT"/scripts/oarc-adsb-mlat.service /lib/systemd/system
 
 echo 60
 
-if ls -l /etc/systemd/system/oarc-adsb-mlat.service 2>&1 | grep '/dev/null' &>/dev/null; then
-    echo "--------------------"
-    echo "CAUTION, oarc-adsb-mlat is masked and won't run!"
-    echo "If this is unexpected for you, please report this issue."
-    echo "--------------------"
-    sleep 3
-else
-    if [[ "${MLAT_DISABLED}" == "1" ]]; then
-        systemctl disable oarc-adsb-mlat || true
-        systemctl stop oarc-adsb-mlat || true
-    else
-        # Enable oarc-adsb-mlat service
-        systemctl enable oarc-adsb-mlat >> $LOGFILE || true
-        # Start or restart oarc-adsb-mlat service
-        systemctl restart oarc-adsb-mlat || true
-    fi
-fi
+
 
 echo 70
 
@@ -317,10 +301,8 @@ echo 82
 
 if ! ls -l /etc/systemd/system/oarc-adsb-feed.service 2>&1 | grep '/dev/null' &>/dev/null; then
     # Enable oarc-adsb-feed service
-    systemctl enable oarc-adsb-feed >> $LOGFILE || true
     echo 92
     # Start or restart oarc-adsb-feed service
-    systemctl restart oarc-adsb-feed || true
 else
     echo "--------------------"
     echo "CAUTION, oarc-adsb-feed.service is masked and won't run!"
@@ -331,28 +313,9 @@ fi
 
 echo 94
 
-systemctl is-active oarc-adsb-feed &>/dev/null || {
-    rm -f $IPATH/readsb_version
-    echo "---------------------------------"
-    journalctl -u oarc-adsb-feed | tail -n10
-    echo "---------------------------------"
-    echo "oarc-adsb-feed service couldn't be started, please report this error on Discord."
-    echo "Try and copy as much of the output above and include it in your report, thank you!"
-    echo "---------------------------------"
-    exit 1
-}
 
 echo 96
-[[ "${MLAT_DISABLED}" == "1" ]] || systemctl is-active oarc-adsb-mlat &>/dev/null || {
-    rm -f $IPATH/mlat_version
-    echo "---------------------------------"
-    journalctl -u oarc-adsb-mlat | tail -n10
-    echo "---------------------------------"
-    echo "oarc-adsb-mlat service couldn't be started, please report this error on Discord."
-    echo "Try an copy as much of the output above and include it in your report, thank you!"
-    echo "---------------------------------"
-    exit 1
-}
+
 
 if [[ -f /etc/default/oarc-adsb ]]; then
     sed -i -e 's/adsb.oarc.uk,30004,beast_reduce_plus_out/adsb.oarc.uk,30004,beast_reduce_plus_out/' /etc/default/oarc-adsb || true
